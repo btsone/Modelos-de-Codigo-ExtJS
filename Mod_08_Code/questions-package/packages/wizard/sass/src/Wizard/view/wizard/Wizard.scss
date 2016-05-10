@@ -1,0 +1,7 @@
+@include extjs-panel-ui(
+    $ui: 'wizard'
+);
+
+.wizard-body {
+	padding: 20px;
+}
