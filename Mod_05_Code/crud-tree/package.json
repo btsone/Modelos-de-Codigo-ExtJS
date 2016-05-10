@@ -1,0 +1,12 @@
+{
+  "name": "architecture-cms",
+  "description": "Ext JS 5.0 Application Architecture CMS Demonstration",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.9.0",
+    "express": "4.x",
+    "node-uuid": "^1.4.1",
+    "sift": "^0.1.0"
+  }
+}

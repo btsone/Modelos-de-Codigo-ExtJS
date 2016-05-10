@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html manifest="">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <title>Chart Test</title>
+    <link rel="stylesheet" type="text/css" href="ext/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all-debug.css">
+    <script type="text/javascript" src="ext/build/ext-all-debug.js"></script>
+    <script type="text/javascript" src="ext/packages/sencha-charts/build/sencha-charts-debug.js"></script>
+</head>
+<body>
+	<div id="chart"	></div>
+
+	<script type="text/javascript">
+	Ext.onReady(function() {
+
+		var store = window.store = Ext.create('Ext.data.Store', {
+			fields: [
+				{ name: 'value' },
+        		{ name: 'time', type: 'date' }
+			]
+		});
+
+		var now = new Date();
+			fromDate = Ext.Date.subtract(now, Ext.Date.MINUTE, 1),
+			toDate = Ext.Date.add(now, Ext.Date.MINUTE, 5);
+
+	    var chart = Ext.create('Ext.chart.Chart', {
+	    	renderTo: 'chart',
+	        width: 500, height: 300,
+	        animate: true, store: store,
+	        axes: [
+	        	{ type: 'numeric', position: 'left', fields: 'value' }, 
+	        	{
+	        		type: 'time', fields: 'time', dateFormat: 'H:i:s',
+	        		fromDate: fromDate.setSeconds(0),
+        			toDate: toDate.setSeconds(0)
+	        	}
+	        ],
+	        series: [{ type: 'line', xField: 'time', yField: 'value' }]
+	    });
+
+	    var redrawCounter = 0;
+
+	    chart.on('redraw', function() {
+	        redrawCounter++;
+
+		    if(redrawCounter > 15) {
+		        redrawCounter = 0;
+
+		        var timeAxis = this.getAxes()[1],
+		            oldFrom = new Date(timeAxis.getFromDate()),
+		            oldTo = new Date(timeAxis.getToDate()),
+		            newFrom = Ext.Date.add(oldFrom, Ext.Date.SECOND, 15),
+		            newTo = Ext.Date.add(oldTo, Ext.Date.SECOND, 15);
+
+		        timeAxis.setFromDate(newFrom);
+		        timeAxis.setToDate(newTo);
+		    }
+	    });
+
+		setInterval(function() {
+			store.add({
+				time: (new Date()).toISOString(), value: Ext.Number.randomInt(1, 30)
+			});
+		}, 1000);
+		
+	});
+	</script>
+</body>
+</html>
