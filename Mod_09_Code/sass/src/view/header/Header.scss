@@ -1,0 +1,12 @@
+.x-panel-header-title-default > .x-title-text-default:after {
+	content: '';
+}
+
+.app-header {
+	.x-title-text {
+		padding: 8px 10px;
+		font-family: 'Fredoka One';
+		font-size: 30px;
+		color: $color;
+	}
+}
